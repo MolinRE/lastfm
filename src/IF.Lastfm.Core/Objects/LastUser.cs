@@ -21,6 +21,8 @@ namespace IF.Lastfm.Core.Objects
         public int Bootstrap { get; private set; }
         public string Type { get; private set; }
 
+        public LastTrack RecentScrobble { get; set; }
+
         /// <summary>
         /// Parses the given <paramref name="token"/> to a
         /// <see cref="LastUser"/>.
@@ -38,11 +40,29 @@ namespace IF.Lastfm.Core.Objects
                 Playcount = token.Value<int>("playcount"),
                 Playlists = token.Value<int>("playlists"),
                 Gender = ParseGender(token.Value<string>("gender")),
-                IsSubscriber = Convert.ToBoolean(token.Value<int>("subscriber")),
-                TimeRegistered = token.Value<double>("registered.unixtime").FromUnixTime().DateTime,
                 Bootstrap = token.Value<int>("bootstrap"),
                 Type = token.Value<string>("type")
             };
+
+            var registeredToken = token.SelectToken("registered");
+            if (registeredToken != null)
+            {
+                u.TimeRegistered = registeredToken.Value<double>("unixtime").FromUnixTime().DateTime;
+            }
+
+            // This field sometimes returns "FIXME", which throws an exception while converting
+            if (bool.TryParse(token.Value<string>("subscriber"), out var result))
+            {
+                u.IsSubscriber = result;
+            }
+
+            // Could be asked in user.getFriends method
+            var recentTrackToken = token.SelectToken("recenttrack");
+            if (recentTrackToken != null)
+            {
+                // Only one track is returned by the API
+                u.RecentScrobble = LastTrack.ParseJToken(recentTrackToken);
+            }
 
             var images = token.SelectToken("image");
             if (images != null)

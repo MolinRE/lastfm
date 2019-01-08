@@ -116,6 +116,26 @@ namespace IF.Lastfm.Core.Api
             return await command.ExecuteAsync();
         }
 
+        /// <summary>
+        /// Get a list of the user's friends on Last.fm.
+        /// </summary>
+        /// <param name="username">The last.fm username to fetch the friends of.</param>
+        /// <param name="recentTracks">Whether or not to include information about friends' recent listening in the response.</param>
+        /// <param name="pagenumber">The page number to fetch.</param>
+        /// <param name="count">The number of results to fetch per page.</param>
+        /// <returns></returns>
+        public async Task<PageResponse<LastUser>> GetFriends(string username, bool recentTracks = false, int pagenumber = 1, int count = LastFm.DefaultPageLength)
+        {
+            var command = new GetFriendsCommand(Auth, username, recentTracks)
+            {
+                Page = pagenumber,
+                Count = count,
+                HttpClient = HttpClient
+            };
+
+            return await command.ExecuteAsync();
+        }
+
         public async Task<LastResponse> AddShoutAsync(string recipient, string message)
         {
             var command = new AddShoutCommand(Auth, recipient, message)
