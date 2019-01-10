@@ -1,47 +1,44 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using IF.Lastfm.Core.Api.Enums;
+﻿using IF.Lastfm.Core.Api.Enums;
 using IF.Lastfm.Core.Api.Helpers;
 using IF.Lastfm.Core.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace IF.Lastfm.Core.Api.Commands.User
 {
-    [ApiMethodName("user.getRecentTracks")]
-    internal class GetRecentTracksCommand : GetAsyncCommandBase<PageResponse<LastTrack>>
+    [ApiMethodName("user.getArtistTracks")]
+    internal class GetArtistTracksCommand : GetAsyncCommandBase<PageResponse<LastTrack>>
     {
         public string Username { get; private set; }
+
+        public string ArtistName { get; private set; }
 
         public DateTimeOffset? From { get; set; }
 
         public DateTimeOffset? To { get; set; }
 
-        public bool? Extended { get; set; }
-
-        public GetRecentTracksCommand(ILastAuth auth, string username) : base(auth)
+        public GetArtistTracksCommand(ILastAuth auth, string username, string artistName) : base(auth)
         {
             Username = username;
+            ArtistName = artistName;
         }
 
         public override void SetParameters()
         {
             Parameters.Add("user", Username);
-            
+            Parameters.Add("artist", ArtistName);
+
             if (From.HasValue)
             {
-                Parameters.Add("from", From.Value.AsUnixTime().ToString());
+                Parameters.Add("startTimestamp", From.Value.AsUnixTime().ToString());
             }
 
             if (To.HasValue)
             {
-                Parameters.Add("to", To.Value.AsUnixTime().ToString());
-            }
-            
-            if (Extended.HasValue)
-            {
-                Parameters.Add("extended", Extended.ToString());
+                Parameters.Add("endTimestamp", To.Value.AsUnixTime().ToString());
             }
 
             AddPagingParameters();
@@ -55,7 +52,7 @@ namespace IF.Lastfm.Core.Api.Commands.User
             LastResponseStatus status;
             if (LastFm.IsResponseValid(json, out status) && response.IsSuccessStatusCode)
             {
-                var jtoken = JsonConvert.DeserializeObject<JToken>(json).SelectToken("recenttracks");
+                var jtoken = JsonConvert.DeserializeObject<JToken>(json).SelectToken("artisttracks");
                 var itemsToken = jtoken.SelectToken("track");
                 var attrToken = jtoken.SelectToken("@attr");
 
