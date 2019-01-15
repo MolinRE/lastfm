@@ -24,6 +24,8 @@ namespace IF.Lastfm.Core.Objects
         
         #endregion
 
+        #region Constructors
+        
         public LastTag()
         {
         }
@@ -34,7 +36,11 @@ namespace IF.Lastfm.Core.Objects
             Url = new Uri(uri, UriKind.RelativeOrAbsolute);
             Count = count;
         }
-
+        
+        #endregion
+        
+        #region Internal static methods
+        
         internal static LastTag ParseJToken(JToken token)
         {
             return ParseJToken(token, null);
@@ -73,5 +79,7 @@ namespace IF.Lastfm.Core.Objects
                 Reach = reach
             };
         }
+        
+        #endregion
     }
 }
