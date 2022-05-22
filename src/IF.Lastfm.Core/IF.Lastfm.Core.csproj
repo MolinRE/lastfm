@@ -14,6 +14,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageVersion>1.0.0</PackageVersion>
+    <PackageId>MolinRE.LastFM</PackageId>
     <Title>MolinRE.LastFM</Title>
     <Authors>Konstantin Komarov </Authors>
     <Description>Оригинальная либа не обновляется, так что я сделал форк.</Description>
