@@ -13,6 +13,19 @@
 		<PackageTags>lastfm last.fm inflatable friends sdk api music metadata scrobble scrobbling portable netstandard</PackageTags>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Title>MolinRE.LastFM</Title>
+    <Authors>Konstantin Komarov </Authors>
+    <Description>Оригинальная либа не обновляется, так что я сделал форк.</Description>
+    <Copyright>Konstantin Komarov, 2022</Copyright>
+    <PackageProjectUrl>https://github.com/MolinRE/lastfm</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/MolinRE/lastfm/blob/main/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/MolinRE/lastfm</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>lastfm, music, scrobble</PackageTags>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup>
