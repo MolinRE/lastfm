@@ -28,6 +28,18 @@
     <EmbeddedResource Include="Resources\TrackApi\*.txt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources\UserApi\UserGetFriendsSingle.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\UserApi\UserGetFriendsSingle.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Resources\UserApi\UserGetFriendsSingle.json" />
+  </ItemGroup>
+
 <!--
   <ItemGroup>
       <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">

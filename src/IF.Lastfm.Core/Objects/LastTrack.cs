@@ -127,11 +127,19 @@ namespace IF.Lastfm.Core.Objects
             {
                 t.IsLoved = Convert.ToBoolean(lovedToken.Value<int>());
             }
+
             var attrToken = token.SelectToken("@attr");
             if (attrToken != null && attrToken.HasValues)
             {
                 t.IsNowPlaying = attrToken.Value<bool>("nowplaying");
                 t.Rank = attrToken.Value<int?>("rank");
+
+                // If asked for recent track in user.getFriends method, JSON structure is different
+                var stamp = attrToken.SelectToken("uts");
+                if (stamp != null)
+                {
+                    t.TimePlayed = stamp.Value<double>().FromUnixTime();
+                }
             }
 
             // api returns milliseconds when track.getInfo is called directly
@@ -166,6 +174,11 @@ namespace IF.Lastfm.Core.Objects
             t.Duration = TimeSpan.FromSeconds(secs);
 
             return t;
+        }
+
+        public override string ToString()
+        {
+            return $"{ArtistName} — {Name} ({TimePlayed})";
         }
     }
 }
