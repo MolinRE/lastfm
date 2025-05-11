@@ -106,6 +106,30 @@ namespace IF.Lastfm.Core.Api
             return await command.ExecuteAsync();
         }
 
+        /// <summary>
+        /// Get a list of tracks by a given artist scrobbled by this user, including scrobble time. Can be limited to specific timeranges, defaults to all time.
+        /// </summary>
+        /// <param name="username"> The last.fm username to fetch the recent tracks of.</param>
+        /// <param name="artistName">The artist name you are interested in.</param>
+        /// <param name="from">Lower threshold for scrobbles. Will not return scrobbles from before this time.</param>
+        /// <param name="to">Upper threshold for scrobbles. Will not return scrobbles from after this time.</param>
+        /// <param name="pagenumber">Page numbering starts from 1. If set to 0, will not include the "now playing" track</param>
+        /// <param name="count">Amount of scrobbles to return for this page.</param>
+        /// <returns>Enumerable of <see cref="LastTrack"/>.</returns>
+        public async Task<PageResponse<LastTrack>> GetArtistTracks(string username, string artistName, DateTimeOffset? from = null, DateTime? to = null, int pagenumber = 1, int count = LastFm.DefaultPageLength)
+        {
+            var command = new GetArtistTracksCommand(Auth, username, artistName)
+            {
+                Page = pagenumber,
+                Count = count,
+                From = from,
+                To = to,
+                HttpClient = HttpClient
+            };
+
+            return await command.ExecuteAsync();
+        }
+
         public async Task<PageResponse<LastStation>> GetRecentStations(string username, int pagenumber = 0, int count = LastFm.DefaultPageLength)
         {
             var command = new GetRecentStationsCommand(Auth, username)
